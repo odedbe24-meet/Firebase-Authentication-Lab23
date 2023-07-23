@@ -35,7 +35,7 @@ def signin():
             error = 'auth_error'
             return render_template("signin.html", error=error)
     else:
-        return render_template("signup.html")
+        return render_template("signin.html")
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -49,6 +49,7 @@ def signup():
            return redirect(url_for('add_tweet'))
        except:
            error = 'auth error'
+           print(error)
            return render_template('signup.html', error=error)
     else:
         return render_template("signup.html")
@@ -58,6 +59,8 @@ def signup():
 @app.route('/add_tweet', methods=['GET', 'POST'])
 def add_tweet():
     return render_template("add_tweet.html")
+
+
 
 
 if __name__ == '__main__':
