@@ -11,13 +11,35 @@
     </head>
     <body>
         {%for tweet in tweets%}
+        <form action="/like", method="POST">
             <div>
 
                 <h1>{{tweets[tweet]["title"]}}</h1>
                 <h2>{{tweets[tweet]["text"]}}</h2>
+                <h3>{{tweets[tweet]["timestamp"]}}</h3>
+                <input type="hidden" name="tweetID" value={{tweet}}>
+                <button> LIKE</button> <p>{{tweets[tweet]["like"]}}</p>
                 <label>________________</label>
             </div>
+        </form>
         {%endfor%}
         <script src="" async defer></script>
+
+
+        <!-- Signout -->
+        <div>
+            
+            <form action="/signout" method="post">
+                <p>signout</p>
+                <input type="submit"></input>
+
+
+
+            </form>
+
+
+        </div>
+
+
     </body>
 </html>

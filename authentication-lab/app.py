@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import session as login_session
 import pyrebase
-
+from datetime import datetime, date
 
 Config = {
   "apiKey": "AIzaSyCKmONTBKYQ66RLlt3ZzOh3Pmfk1emxQZk",
@@ -69,7 +69,9 @@ def add_tweet():
     if(request.method == "POST"):
         title = request.form['title']
         text = request.form['text']
-        tweet = {"title": title, "text": text, "uid":login_session["user"]["localId"] }
+        now =  datetime.now()
+        tdate = date.today()
+        tweet = {"title": title, "text": text, "uid":login_session["user"]["localId"], "timestamp":now.strftime("%H:%M:%S") + " " + str(tdate), "like": 0  }
         
         db.child("Tweets").push(tweet)
 
@@ -82,6 +84,31 @@ def all_tweets():
     
     all_tweets = db.child("Tweets").get().val()
     return render_template("tweets.html", tweets=all_tweets)
+
+
+
+@app.route('/like', methods=["GET","POST"])
+def like():
+    if request.method=="GET":
+        return redirect(url_for("all_tweets"))
+    else:   
+        UID = request.form["tweetID"]
+        likequanity = db.child("Tweets").child(UID).child("like").get().val()
+        print(likequanity)
+        likequanity = likequanity + 1
+        updated = {"like" : likequanity}
+        db.child("Tweets").child(UID).update(updated)
+        return redirect(url_for("all_tweets"))
+
+
+@app.route("/signout", methods =["GET","POST"])
+def signout():
+    if request.method == "GET":
+        return redirect(url_for("sginin"))
+    else:
+        login_session["user"] = None 
+        auth.current_user = None
+        return redirect(url_for("signin"))
 
 
 if __name__ == '__main__':
