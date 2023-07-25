@@ -17,6 +17,7 @@
                 <h1>{{tweets[tweet]["title"]}}</h1>
                 <h2>{{tweets[tweet]["text"]}}</h2>
                 <h3>{{tweets[tweet]["timestamp"]}}</h3>
+                <h4>by {{ nested_lookup(users, tweet, "name")}}</h4>
                 <input type="hidden" name="tweetID" value={{tweet}}>
                 <button> LIKE</button> <p>{{tweets[tweet]["like"]}}</p>
                 <label>________________</label>

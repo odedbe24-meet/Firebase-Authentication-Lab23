@@ -83,7 +83,9 @@ def add_tweet():
 def all_tweets():
     
     all_tweets = db.child("Tweets").get().val()
-    return render_template("tweets.html", tweets=all_tweets)
+    users = db.child("Users").get().val()
+    
+    return render_template("tweets.html", tweets=all_tweets, users=users)
 
 
 
